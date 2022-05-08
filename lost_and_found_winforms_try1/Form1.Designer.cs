@@ -40,6 +40,8 @@
             this.btn_claim = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.btn_Update = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.textBox_Search = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -146,11 +148,30 @@
             this.btn_Update.UseVisualStyleBackColor = true;
             this.btn_Update.Click += new System.EventHandler(this.btn_Update_Click);
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(368, 49);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(41, 13);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "Search";
+            // 
+            // textBox_Search
+            // 
+            this.textBox_Search.Location = new System.Drawing.Point(415, 46);
+            this.textBox_Search.Name = "textBox_Search";
+            this.textBox_Search.Size = new System.Drawing.Size(113, 20);
+            this.textBox_Search.TabIndex = 13;
+            this.textBox_Search.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_Search_KeyPress);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(609, 381);
+            this.Controls.Add(this.textBox_Search);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.btn_Update);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.btn_claim);
@@ -186,6 +207,8 @@
         private System.Windows.Forms.Button btn_claim;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button btn_Update;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox textBox_Search;
     }
 }
 

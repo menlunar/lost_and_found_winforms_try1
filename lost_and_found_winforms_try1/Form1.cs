@@ -20,6 +20,7 @@ namespace lost_and_found_winforms_try1
             InitializeComponent();
         }
 
+        DataTable sqlData = new DataTable();            //creates a new data table
 
         //READ
 
@@ -37,7 +38,6 @@ namespace lost_and_found_winforms_try1
 
             MySqlDataReader sqlRd = cmd.ExecuteReader();     //executes sql command (cmd data reader) to connect sql database to program database, reads sql data     
 
-            DataTable sqlData = new DataTable();            //creates a new data table
             sqlData.Load(sqlRd);                            //reads data on sql database and puts it in sqlData variable
             dataGridView1.DataSource = sqlData;             //shows data on grid view
 
@@ -186,6 +186,18 @@ namespace lost_and_found_winforms_try1
             }
         }
 
-
+        private void textBox_Search_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            try
+            {
+                DataView dv = sqlData.DefaultView;
+                dv.RowFilter = String.Format("item_name like '%{0}%'", textBox_Search.Text);
+                dataGridView1.DataSource = dv.ToTable();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }
