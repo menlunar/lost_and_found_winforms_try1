@@ -145,7 +145,7 @@ namespace lost_and_found_winforms_try1
                 cmd.ExecuteNonQuery();
                 conn.Close();
 
-                upLoadData();
+                Read();
             }
 
             catch (Exception ex)
