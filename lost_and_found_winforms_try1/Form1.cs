@@ -25,7 +25,7 @@ namespace lost_and_found_winforms_try1
         //READ
 
         //shows data on gridview
-        public void upLoadData()
+        public void Read()
         {
             string sqlConn = "server = localhost; port = 3306; database = lost_and_found; user = root; password = password";
             MySqlConnection conn = new MySqlConnection(sqlConn);
@@ -51,7 +51,7 @@ namespace lost_and_found_winforms_try1
         //uploads data when program initially loads
         private void Form1_Load(object sender, EventArgs e)
         {
-            upLoadData();
+            Read();
         }
 
         //cell click
@@ -71,121 +71,8 @@ namespace lost_and_found_winforms_try1
             }
         }
 
-
-        //CREATE
-
-        //Insert data to Database
-        private void btn_submit_Click(object sender, EventArgs e)
-        {
-
-            string sqlConn = "server = localhost; port = 3306; database = lost_and_found; user = root; password = password";
-
-            MySqlConnection conn = new MySqlConnection(sqlConn);
-
-            try
-            {
-
-                conn.Open();
-
-                string sql = "INSERT INTO lost_and_found.lost_items (item_ID, item_name, owner_name, found_location) VALUES " +
-                    "(" + textBox_itemID.Text + ",' " + textBox_itemName.Text + "', '" + textBox_ownerName.Text + "', '" + textBox_locationFound.Text + "')"; //sql non-query
-
-                MySqlCommand cmd = new MySqlCommand(sql, conn);
-                cmd.ExecuteNonQuery();
-
-                conn.Close();
-
-                upLoadData();
-                MessageBox.Show("Lost item added to database");
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-
-        }
-
-
- 
-
         
-        //DELETE
-
-        //deletes items on database
-      
-        private void btn_claim_Click_1(object sender, EventArgs e)
-        {
-            string sqlConn = "server = localhost; port = 3306; database = lost_and_found; user = root; password = password";
-
-            MySqlConnection conn = new MySqlConnection(sqlConn);
-
-            try
-            {
-                conn.Open();
-
-                MySqlCommand cmd = new MySqlCommand();
-                
-                cmd.CommandText = "DELETE FROM lost_and_found.lost_items WHERE (item_ID = '" +
-                    textBox_itemID.Text + "')";
-                cmd.CommandType = CommandType.Text;
-                cmd.Connection = conn;
-
-                cmd.ExecuteNonQuery();
-                conn.Close();
-
-                foreach (DataGridViewRow item in this.dataGridView1.SelectedRows)
-                {
-                    dataGridView1.Rows.RemoveAt(item.Index);
-                }
-
-                upLoadData();
-                MessageBox.Show("Item claimed!");
-            }
-
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            
-        }
-
-
-        //UPDATE
-        private void btn_Update_Click(object sender, EventArgs e)
-        {
-            string sqlConn = "server = localhost; port = 3306; database = lost_and_found; user = root; password = password";
-
-            MySqlConnection conn = new MySqlConnection(sqlConn);
-
-            try
-            {
-                conn.Open();
-
-               
-                MySqlCommand cmd = new MySqlCommand();
-
-                cmd.CommandText = "UPDATE lost_items SET item_id = '" + textBox_itemID.Text + "'" +
-                    ", item_name = '" + textBox_itemName.Text + "'" +
-                    ", owner_name = '" + textBox_ownerName.Text + "'" +
-                    ", found_location = '" + textBox_locationFound.Text + "'" +
-                    " WHERE item_id = '" + textBox_itemID.Text + "';";
-                cmd.CommandType = CommandType.Text;
-              
-                cmd.Connection = conn;
-
-                cmd.ExecuteNonQuery();
-                conn.Close();
-
-                upLoadData();
-            }
-
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
+        //SEARCH
         private void textBox_Search_KeyPress(object sender, KeyPressEventArgs e)
         {
             try
@@ -199,5 +86,111 @@ namespace lost_and_found_winforms_try1
                 MessageBox.Show(ex.Message);
             }
         }
+
+        //CREATE
+        private void btn_submit_Click_1(object sender, EventArgs e)
+        {
+            string sqlConn = "server = localhost; port = 3306; database = lost_and_found; user = root; password = password";
+
+            MySqlConnection conn = new MySqlConnection(sqlConn);
+
+            try
+            {
+
+                conn.Open();
+
+                string sql = "INSERT INTO lost_and_found.lost_items (item_ID, item_name, owner_name, found_location, date_time_found) VALUES " +
+                    "(" + textBox_itemID.Text + ",' " + textBox_itemName.Text + "', '" + textBox_ownerName.Text + "', '" + textBox_locationFound.Text + "', now() )"; //sql non-query
+
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                cmd.ExecuteNonQuery();
+
+                conn.Close();
+
+                Read();
+                MessageBox.Show("Lost item added to database");
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+
+
+        //UPDATE
+        private void btn_Update_Click(object sender, EventArgs e)
+        {
+            string sqlConn = "server = localhost; port = 3306; database = lost_and_found; user = root; password = password";
+
+            MySqlConnection conn = new MySqlConnection(sqlConn);
+
+            try
+            {
+                conn.Open();
+
+
+                MySqlCommand cmd = new MySqlCommand();
+
+                cmd.CommandText = "UPDATE lost_items SET item_id = '" + textBox_itemID.Text + "'" +
+                    ", item_name = '" + textBox_itemName.Text + "'" +
+                    ", owner_name = '" + textBox_ownerName.Text + "'" +
+                    ", found_location = '" + textBox_locationFound.Text + "'" +
+                    " WHERE item_id = '" + textBox_itemID.Text + "';";
+                cmd.CommandType = CommandType.Text;
+
+                cmd.Connection = conn;
+
+                cmd.ExecuteNonQuery();
+                conn.Close();
+
+                upLoadData();
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+
+        //DELETE
+        private void btn_claim_Click(object sender, EventArgs e)
+        {
+            string sqlConn = "server = localhost; port = 3306; database = lost_and_found; user = root; password = password";
+
+            MySqlConnection conn = new MySqlConnection(sqlConn);
+
+            try
+            {
+                conn.Open();
+
+                MySqlCommand cmd = new MySqlCommand();
+
+                cmd.CommandText = "DELETE FROM lost_and_found.lost_items WHERE (item_ID = '" +
+                    textBox_itemID.Text + "')";
+                cmd.CommandType = CommandType.Text;
+                cmd.Connection = conn;
+
+                cmd.ExecuteNonQuery();
+                conn.Close();
+
+                foreach (DataGridViewRow item in this.dataGridView1.SelectedRows)
+                {
+                    dataGridView1.Rows.RemoveAt(item.Index);
+                }
+
+                Read();
+                MessageBox.Show("Item claimed!");
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+
     }
 }
